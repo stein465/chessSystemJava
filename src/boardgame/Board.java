@@ -26,4 +26,12 @@ public class Board {
     public void setColumns(int columns) {
         this.columns = columns;
     }
+
+    public Piece piece(int row, int columns){  //Returns a piece in board, if pieces isnt placed yed, returns null
+        return pieces[row][columns];
+    }
+
+    public Piece piece(Position position){
+        return pieces[position.getRow ()][position.getCollumn ()];
+    }
 }

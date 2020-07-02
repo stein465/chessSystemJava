@@ -1,6 +1,7 @@
 package chess;
 
 import boardgame.Board;
+import boardgame.Piece;
 import boardgame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
@@ -24,10 +25,13 @@ public class ChessMatch {
     }
 
     private void initialSetup(){
-        board.placePiece ( new Rook ( board,Color.WHITE ), new Position ( 2,1 ) );
-        board.placePiece ( new King ( board, Color.WHITE ),new Position ( 0,5 )  );
-        board.placePiece ( new King ( board, Color.WHITE ),new Position ( 5,5 )  );
-        board.placePiece ( new Rook ( board, Color.WHITE ),new Position ( 5,5 )  );
+        placeNewPiece ( 'b', 6, new Rook ( board, Color.GREEN ) );
+        placeNewPiece ( 'e', 8, new King ( board, Color.GREEN ) );
+        placeNewPiece ( 'e', 1, new King ( board, Color.WHITE ) );
 
+    }
+
+    private void placeNewPiece(char collumn, int row, ChessPiece piece){            // calls place piece method with ChessPosition paramers trasnforming char collumn and int row with .toPosition
+        board.placePiece(piece, new ChessPosition (collumn,row).toPosition ());     // transform Chessposition to Position and places a ChessPiece
     }
 }

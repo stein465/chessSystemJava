@@ -1,5 +1,7 @@
 package boardgame;
 
+import chess.ChessPiece;
+
 public class Board {
     private int rows;
     private int columns;
@@ -42,6 +44,22 @@ public class Board {
         }
         pieces[position.getRow ()][position.getCollumn ()] = piece;
         piece.position = position;
+    }
+
+    public Piece removePiece(Position position){
+        if (!positionExists ( position )){              // test if position existis
+            throw new BoardException ( "position not on the board" );
+        }
+
+        if (piece ( position )== null){     //testa se existe peça na posição
+            return null;
+        }
+
+        Piece aux = piece ( position );    //se houver peça, captura o valor e guarda em aux
+        aux.position = null;               // atualiza posição de aux para null (retira aux do tabuleiro)
+        pieces[position.getRow ()][position.getCollumn ()] = null;    // piece on pieces matrix becomes null (remove pieces from pieces matrix on the board)
+
+        return  aux;
     }
 
     public boolean positionExists(Position position){   //tests if the position exists using a Position

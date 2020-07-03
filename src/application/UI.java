@@ -2,7 +2,11 @@ package application;
 
 
 import chess.ChessPiece;
+import chess.ChessPosition;
 import chess.Color;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 
 public class UI {
@@ -38,6 +42,19 @@ public class UI {
         }
         System.out.println ("  a b c d e f g h");
 
+    }
+
+    public static ChessPosition readChessPosition(Scanner sc){
+        try {
+            String line = sc.nextLine ();
+            char collumn = line.charAt ( 0 );
+            int row = Integer.parseInt ( line.substring ( 1 ) );
+
+            return new ChessPosition ( collumn, row );
+        }
+        catch (RuntimeException e){
+            throw new InputMismatchException ( " not valid position, valid position are from a1 to h8" );
+        }
     }
 
     private static void printPiece(ChessPiece piece){

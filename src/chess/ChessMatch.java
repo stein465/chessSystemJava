@@ -8,11 +8,25 @@ import chess.pieces.Rook;
 
 public class ChessMatch {
     private Board board;
-
+    private int turn;
+    private Color currentPlayer;
+    //retur
     public ChessMatch( ) {
         this.board = new Board ( 8,8 );
+        currentPlayer = Color.WHITE;
+        turn = 1;
         initialSetup ();
     }
+
+    public int getTurn() {
+        return turn;
+    }
+    public Color getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+
+
 
     public ChessPiece[][] getPieces(){                                                    // Program deve retornar peças do tipo Chesspiece[][], não do tipo Piece[][] no pacote boardgame
         ChessPiece[][] mat = new ChessPiece[board.getRows ()][board.getColumns ()];       //peças não colocadas no tabuleiro contiunam retornando null
@@ -53,6 +67,7 @@ public class ChessMatch {
         validateSourcePosition(source);
         validateTargetPosition ( source, target );
         Piece capturedPiece = makeMove(source, target);
+        nextTurn ();
         return (ChessPiece) capturedPiece;
     }
     private Piece makeMove(Position source,Position target){
@@ -67,9 +82,13 @@ public class ChessMatch {
         if(!board.thereIsAPiece ( position )){
             throw  new ChessException ( "there is not a piece on source position" );
         }
+        if (currentPlayer !=  ((ChessPiece) board.piece ( position )).getColor ()){
+            throw new ChessException ( "chosen piece belongs to adversary" );
+        }
         if (!board.piece ( position ).isThereAnyPossibleMove ()){
             throw new ChessException ( "there is not any possibles moves for the chosen piece" );
         }
+
     }
 
     private void validateTargetPosition(Position source, Position target){
@@ -78,6 +97,10 @@ public class ChessMatch {
         }
     }
 
+    private void nextTurn(){
+        turn++;
+        currentPlayer = (currentPlayer == Color.WHITE) ? Color.GREEN: Color.WHITE;
+    }
 
     private void placeNewPiece(char collumn, int row, ChessPiece piece){            // calls place piece method with ChessPosition paramers trasnforming char collumn and int row with .toPosition
         board.placePiece(piece, new ChessPosition (collumn,row).toPosition ());     // transform Chessposition to Position and places a ChessPiece
